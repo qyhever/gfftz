@@ -1,0 +1,11 @@
+.cuForm {
+  :global(.ant-form .ant-form-item-label) {
+    flex-basis: 100px;
+  }
+}
+
+.avatarImage {
+  :global(.ant-image-placeholder) {
+    position: relative;
+  }
+}

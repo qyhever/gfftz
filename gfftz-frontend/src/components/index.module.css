@@ -1,0 +1,5 @@
+.avatarImage {
+  :global(.ant-image-placeholder) {
+    position: relative;
+  }
+}

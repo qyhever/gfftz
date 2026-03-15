@@ -1,0 +1,5 @@
+.cuModal {
+  :global(.ant-form .ant-form-item-label) {
+    flex-basis: 100px;
+  }
+}

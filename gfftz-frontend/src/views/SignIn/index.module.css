@@ -1,0 +1,69 @@
+.loginContainer {
+  min-height: 100vh;
+  background: #f0f2f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.loginCard {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.loginHeader {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.loginHeader h2 {
+  color: #333;
+  font-size: 28px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+}
+
+.loginHeader p {
+  color: #666;
+  font-size: 14px;
+  margin: 0;
+}
+
+.loginForm {
+  width: 100%;
+}
+
+.loginForm :deep(.t-form-item) {
+  margin-bottom: 20px;
+}
+
+.loginForm :deep(.t-form-item:last-child) {
+  margin-bottom: 0;
+}
+
+.loginForm :deep(.t-input) {
+  height: 48px;
+}
+
+.loginForm :deep(.t-button) {
+  height: 48px;
+  font-size: 16px;
+  border-radius: 6px;
+}
+
+/* 响应式设计 */
+@media (max-width: 480px) {
+  .loginCard {
+    padding: 24px;
+    margin: 0 16px;
+  }
+
+  .loginHeader h2 {
+    font-size: 24px;
+  }
+}

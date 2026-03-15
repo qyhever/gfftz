@@ -1,0 +1,30 @@
+{
+  "React.FC快速生成模板": {
+    "prefix": ["rfc"],
+    "body": [
+      "interface IProps {",
+      "\tchildren?: React.ReactNode",
+      "}",
+      "",
+      "export const ${TM_FILENAME_BASE}: React.FC<IProps> = () => {",
+      "\treturn <div>${TM_FILENAME_BASE}</div>",
+      "}",
+      ""
+    ],
+    "description": "快速生成React.FC函数式组件，组件名自动根据文件名生成"
+  },
+  "React.FC带参数模板": {
+    "prefix": ["rfcp"],
+    "body": [
+      "interface IProps {",
+      "\t$1",
+      "}",
+      "",
+      "export const ${TM_FILENAME_BASE}: React.FC<IProps> = ({ $2 }) => {",
+      "\treturn <div>${TM_FILENAME_BASE}</div>",
+      "}",
+      ""
+    ],
+    "description": "快速生成带参数的React.FC函数式组件"
+  }
+}

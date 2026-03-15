@@ -1,0 +1,22 @@
+@hostname = localhost
+@port = 6300
+@host = {{hostname}}:{{port}}
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo5LCJleHAiOjE3Njc4MTQ0ODcsImlzcyI6ImpldmUifQ.Ahq3oI8QXHGr5BNUw6g8VfdVWOA5Wc35LX9eBosiLPk
+
+### 分页列表
+post http://{{host}}/api/resource/pagedList HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "currentPage": 1,
+  "pageSize": 10
+}
+
+### 全部资源
+get http://{{host}}/api/resource/findAll HTTP/1.1
+Authorization: Bearer {{token}}
+
+### 单个资源
+get http://{{host}}/api/resource/3 HTTP/1.1
+Authorization: Bearer {{token}}

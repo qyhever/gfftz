@@ -1,0 +1,43 @@
+# Git 相关
+.git
+.gitignore
+.github
+
+# 构建产物
+tmp/
+log/
+*.log
+gfftz
+*.exe
+
+# 开发工具
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 测试文件
+*_test.go
+test/
+coverage.txt
+
+# 文档
+*.md
+docs/
+api-docs/
+
+# 脚本和配置
+scripts/
+.air.toml
+Makefile
+.env
+.env.*
+
+# REST 测试文件
+rest/
+*.http
+
+# 其他
+.DS_Store
+Thumbs.db

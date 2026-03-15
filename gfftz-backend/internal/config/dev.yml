@@ -1,0 +1,26 @@
+mode: "dev"
+
+server:
+  port: 6300
+database:
+  mysql:
+    addr: "localhost:3306"
+    user: "root"
+    password: "root123"
+    db_name: "gfftz"
+jwt:
+  secret: "foobar"
+  access_expires_in: "2h"
+  refresh_expires_in: "72h"
+logger:
+  level: "debug"
+  filename: "./log/gfftz.log"
+  max_size: 1000
+  max_age: 3600
+  max_backups: 5
+auth:
+  whitelist:
+    - "GET:/foo"
+    - "GET:/@vite/client"
+    - "GET:/"
+    - "POST:/user/updatePassword"

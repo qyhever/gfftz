@@ -1,0 +1,18 @@
+@hostname = localhost
+@port = 6300
+@host = {{hostname}}:{{port}}
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo5LCJleHAiOjE3NjkxODQ2MjMsImlzcyI6ImpldmUifQ.58Tre0I53gwBz9R0AT1WN_bKHzemdfEooRC2AESlBAI
+
+
+### 分页列表
+POST  http://{{host}}/api/user/pagedList
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "currentPage": 1,
+  "pageSize": 10
+}
+
+### 获取用户列表（无参数）
+GET http://{{host}}/user

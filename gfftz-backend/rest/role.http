@@ -1,0 +1,65 @@
+// command + option + R
+
+@hostname = localhost
+@port = 6300
+@host = {{hostname}}:{{port}}
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo5LCJleHAiOjE3OTYwNDMyNjMsImlzcyI6ImpldmUifQ.sNCfqZ1CsdQ8wW3_4xh72wknzNpCQn8SKTLLsx3vw7k
+
+### 分页
+get http://{{host}}/api/role HTTP/1.1
+Authorization: Bearer {{token}}
+
+### 全部角色（包含资源）
+get http://{{host}}/api/role/findAll?includeResources=true HTTP/1.1
+Authorization: Bearer {{token}}
+
+### 创建角色
+post http://{{host}}/api/role HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "id": 2,
+  "name": "test1",
+  "code": "t3",
+  "description": "testdesc",
+  "isEnabled": 1,
+  "isSystemDefault": 0,
+  "resourceCodes": ["home", "component"]
+}
+
+### 更新角色
+put http://{{host}}/api/role HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "id": 2,
+  "name": "test1",
+  "code": "t2",
+  "isEnabled": 1,
+  "isSystemDefault": 0
+}
+
+### 单个角色
+get http://{{host}}/api/role/16 HTTP/1.1
+Authorization: Bearer {{token}}
+
+### 批量删除角色
+post http://{{host}}/api/role/batchDelete HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "ids": [30, 31]
+}
+
+### 切换角色启用状态
+patch http://{{host}}/api/role/toggleEnabled HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "id": 16,
+  "isEnabled": 0
+}
