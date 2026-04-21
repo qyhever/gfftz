@@ -74,6 +74,10 @@ func RefreshTokenHandler(c *gin.Context) {
 		ResponseFailed(c, CodeInvalidToken)
 		return
 	}
+	if !claims.IsRefreshToken() {
+		ResponseFailed(c, CodeInvalidToken)
+		return
+	}
 
 	// 校验用户
 	userService := service.NewUserService()

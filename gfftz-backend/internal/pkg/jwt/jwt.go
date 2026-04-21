@@ -13,9 +13,15 @@ import (
 // 我们这里需要额外记录一个UserID字段，所以要自定义结构体
 // 如果想要保存更多信息，都可以添加到这个结构体中
 type MyClaims struct {
-	UserID uint64 `json:"user_id"`
+	UserID    uint64 `json:"user_id"`
+	TokenType string `json:"token_type"`
 	jwt.StandardClaims
 }
+
+const (
+	TokenTypeAccess  = "access"
+	TokenTypeRefresh = "refresh"
+)
 
 // getSecret 返回用于签名/校验 JWT 的密钥。
 // 延迟从配置中取值，避免在包初始化阶段访问未加载的配置导致空指针。
@@ -52,7 +58,8 @@ func GenToken(userID uint64) (aToken, rToken string, err error) {
 
 	// 创建一个我们自己的声明
 	c := MyClaims{
-		userID, // 自定义字段
+		userID,
+		TokenTypeAccess,
 		jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(accessExpireDuration).Unix(), // 过期时间
 			Issuer:    "jeve",                                      // 签发人
@@ -63,6 +70,7 @@ func GenToken(userID uint64) (aToken, rToken string, err error) {
 
 	rc := MyClaims{
 		userID,
+		TokenTypeRefresh,
 		jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(refreshExpireDuration).Unix(), // 过期时间
 			Issuer:    "jeve",                                       // 签发人
@@ -85,4 +93,14 @@ func ParseToken(tokenString string) (claims *MyClaims, err error) {
 		err = errors.New("invalid token")
 	}
 	return
+}
+
+// IsAccessToken reports whether the token is an access token.
+func (c *MyClaims) IsAccessToken() bool {
+	return c != nil && c.TokenType == TokenTypeAccess
+}
+
+// IsRefreshToken reports whether the token is a refresh token.
+func (c *MyClaims) IsRefreshToken() bool {
+	return c != nil && c.TokenType == TokenTypeRefresh
 }

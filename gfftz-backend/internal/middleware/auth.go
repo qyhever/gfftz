@@ -75,6 +75,15 @@ func JWTAuthMiddleware() func(c *gin.Context) {
 			c.Abort()
 			return
 		}
+		if !claims.IsAccessToken() {
+			c.JSON(http.StatusUnauthorized, gin.H{
+				"code":    1006,
+				"message": "登录状态失效",
+				"data":    nil,
+			})
+			c.Abort()
+			return
+		}
 
 		// 将用户ID写入上下文，供后续处理使用
 		c.Set(ContextUserIDKey, claims.UserID)

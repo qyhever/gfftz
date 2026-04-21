@@ -6,7 +6,7 @@ import { useUserStore } from '@/stores/user'
 export function AuthGuard({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate()
   const location = useLocation()
-  const { isLoggedIn, userInfo, fetchUserInfo } = useUserStore()
+  const { isLoggedIn, userInfo, fetchUserInfo, logout } = useUserStore()
 
   // 计算是否需要加载用户信息
   const needsFetchUserInfo = useMemo(() => {
@@ -23,12 +23,11 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
     if (needsFetchUserInfo) {
       fetchUserInfo().catch((error) => {
         console.error('Failed to fetch user info:', error)
-        // Token 失效，跳转到登录页
-        // useUserStore.getState().logout()
-        // navigate('/signin', { replace: true, state: { from: location } })
+        logout()
+        navigate('/signin', { replace: true, state: { from: location } })
       })
     }
-  }, [isLoggedIn, needsFetchUserInfo, navigate, fetchUserInfo, location])
+  }, [isLoggedIn, needsFetchUserInfo, navigate, fetchUserInfo, logout, location])
 
   // 未登录，不渲染
   if (!isLoggedIn) {
