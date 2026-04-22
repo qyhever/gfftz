@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
-import { Button, Form, Input, App } from 'antd'
+import { Button, Form, Input, App, Checkbox } from 'antd'
 import type { FormProps } from 'antd'
 import { Smartphone, Lock } from 'lucide-react'
 import styles from './index.module.css'
@@ -10,6 +10,7 @@ import { loadScript, removeScript } from '@/utils'
 type FieldType = {
   mobile: string
   password: string
+  rememberMe: boolean
 }
 
 export const SignIn: React.FC = () => {
@@ -58,7 +59,7 @@ export const SignIn: React.FC = () => {
         </div>
         <Form
           name="basic"
-          initialValues={{ mobile: '', password: '' }}
+          initialValues={{ mobile: '', password: '', rememberMe: false }}
           onFinish={onFinish}
           autoComplete="off"
           size="large"
@@ -106,6 +107,9 @@ export const SignIn: React.FC = () => {
               allowClear
               placeholder="请输入密码"
             />
+          </Form.Item>
+          <Form.Item<FieldType> name="rememberMe" valuePropName="checked">
+            <Checkbox>7天免登录</Checkbox>
           </Form.Item>
           <Form.Item label={null}>
             <Button type="primary" htmlType="submit" block loading={loading}>

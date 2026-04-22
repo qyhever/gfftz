@@ -48,9 +48,10 @@ type MySQLConfig struct {
 
 // JWTConfig JWT配置
 type JWTConfig struct {
-	Secret           string `mapstructure:"secret"`
-	AccessExpiresIn  string `mapstructure:"access_expires_in"`
-	RefreshExpiresIn string `mapstructure:"refresh_expires_in"`
+	Secret                     string `mapstructure:"secret"`
+	AccessExpiresIn            string `mapstructure:"access_expires_in"`
+	RefreshExpiresIn           string `mapstructure:"refresh_expires_in"`
+	RememberMeRefreshExpiresIn string `mapstructure:"remember_me_refresh_expires_in"`
 }
 
 // LoggerConfig 日志配置
@@ -119,6 +120,7 @@ func Init() error {
 	viper.BindEnv("jwt.secret", "GFFTZ_JWT_SECRET")
 	viper.BindEnv("jwt.access_expires_in", "GFFTZ_JWT_ACCESS_EXPIRES_IN")
 	viper.BindEnv("jwt.refresh_expires_in", "GFFTZ_JWT_REFRESH_EXPIRES_IN")
+	viper.BindEnv("jwt.remember_me_refresh_expires_in", "GFFTZ_JWT_REMEMBER_ME_REFRESH_EXPIRES_IN")
 
 	viper.BindEnv("mode", "GFFTZ_MODE")
 

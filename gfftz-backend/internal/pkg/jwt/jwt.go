@@ -13,8 +13,9 @@ import (
 // 我们这里需要额外记录一个UserID字段，所以要自定义结构体
 // 如果想要保存更多信息，都可以添加到这个结构体中
 type MyClaims struct {
-	UserID    uint64 `json:"user_id"`
-	TokenType string `json:"token_type"`
+	UserID     uint64 `json:"user_id"`
+	TokenType  string `json:"token_type"`
+	RememberMe bool   `json:"remember_me"`
 	jwt.StandardClaims
 }
 
@@ -38,29 +39,34 @@ func keyFunc(_ *jwt.Token) (i interface{}, err error) {
 	return getSecret(), nil
 }
 
+func parseDurationOrFallback(raw string, fallback time.Duration) time.Duration {
+	duration, err := time.ParseDuration(raw)
+	if err != nil {
+		return fallback
+	}
+	return duration
+}
+
 // GenToken 生成access token 和 refresh token
-func GenToken(userID uint64) (aToken, rToken string, err error) {
+func GenToken(userID uint64, rememberMe bool) (aToken, rToken string, err error) {
 	// 获取配置
 	cfg := config.GetConfig()
 
 	// 解析访问令牌过期时间
-	accessExpireDuration, err := time.ParseDuration(cfg.JWT.AccessExpiresIn)
-	if err != nil {
-		// 如果解析失败，使用默认值
-		accessExpireDuration = time.Hour * 8
-	}
+	accessExpireDuration := parseDurationOrFallback(cfg.JWT.AccessExpiresIn, time.Hour*8)
+
 	// 解析刷新令牌过期时间
-	refreshExpireDuration, err := time.ParseDuration(cfg.JWT.RefreshExpiresIn)
-	if err != nil {
-		// 如果解析失败，使用默认值 7d
-		refreshExpireDuration = time.Hour * 24 * 7
+	refreshExpireDuration := parseDurationOrFallback(cfg.JWT.RefreshExpiresIn, time.Hour*24*3)
+	if rememberMe {
+		refreshExpireDuration = parseDurationOrFallback(cfg.JWT.RememberMeRefreshExpiresIn, time.Hour*24*7)
 	}
 
 	// 创建一个我们自己的声明
 	c := MyClaims{
-		userID,
-		TokenTypeAccess,
-		jwt.StandardClaims{
+		UserID:     userID,
+		TokenType:  TokenTypeAccess,
+		RememberMe: rememberMe,
+		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(accessExpireDuration).Unix(), // 过期时间
 			Issuer:    "jeve",                                      // 签发人
 		},
@@ -69,9 +75,10 @@ func GenToken(userID uint64) (aToken, rToken string, err error) {
 	aToken, err = jwt.NewWithClaims(jwt.SigningMethodHS256, c).SignedString(getSecret())
 
 	rc := MyClaims{
-		userID,
-		TokenTypeRefresh,
-		jwt.StandardClaims{
+		UserID:     userID,
+		TokenType:  TokenTypeRefresh,
+		RememberMe: rememberMe,
+		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(refreshExpireDuration).Unix(), // 过期时间
 			Issuer:    "jeve",                                       // 签发人
 		},

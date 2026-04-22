@@ -12,6 +12,7 @@ jwt:
   secret: "foobar"
   access_expires_in: "2h"
   refresh_expires_in: "72h"
+  remember_me_refresh_expires_in: "168h"
 logger:
   level: "debug"
   filename: "./log/gfftz.log"

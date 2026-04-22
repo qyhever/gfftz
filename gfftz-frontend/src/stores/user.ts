@@ -6,6 +6,7 @@ import type { IUserInfo } from '@/types/global'
 interface ISignInReq {
   mobile: string
   password: string
+  rememberMe?: boolean
 }
 
 interface IUserState {

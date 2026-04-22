@@ -43,7 +43,7 @@ func LoginHandler(c *gin.Context) {
 	}
 
 	// 生成访问令牌与刷新令牌
-	aToken, rToken, err := jwtpkg.GenToken(uint64(user.ID))
+	aToken, rToken, err := jwtpkg.GenToken(uint64(user.ID), param.RememberMe)
 	if err != nil {
 		zap.L().Error("gen token failed", zap.Error(err))
 		ResponseFailed(c, CodeServerBusy)
@@ -97,8 +97,8 @@ func RefreshTokenHandler(c *gin.Context) {
 		return
 	}
 
-	// 生成新 token
-	newAToken, newRToken, err := jwtpkg.GenToken(uint64(user.ID))
+	// 生成新 token，并沿用 refresh token 中记录的会话策略
+	newAToken, newRToken, err := jwtpkg.GenToken(uint64(user.ID), claims.RememberMe)
 	if err != nil {
 		zap.L().Error("gen token failed", zap.Error(err))
 		ResponseFailed(c, CodeServerBusy)

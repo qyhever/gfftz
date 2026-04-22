@@ -5,6 +5,7 @@ import { config } from '@/config'
 interface ISignInReq {
   mobile: string
   password: string
+  rememberMe?: boolean
 }
 
 interface ISignInRes {
